@@ -1,6 +1,7 @@
 <?php
-Route::any('wechat', function () {
-    $app = app('wechat');
+$app = app('wechat');
+
+Route::any('wechat', function () use ($app) {
     $app->server->push(function ($message) {
         \Log::info($message);
         switch ($message['MsgType']) {
@@ -27,6 +28,10 @@ Route::any('wechat', function () {
                 break;
             case 'file':
                 return '收到文件消息';
+            case 'subscribe':
+                return '关注';
+            case 'unsubscribe':
+                return '取关';
             // ... 其它消息
             default:
                 return '收到其它消息';
@@ -37,6 +42,12 @@ Route::any('wechat', function () {
     });
     $response = $app->server->serve();
     return $response->send();
+});
+
+Route::get('qrcode_url', function ()use($app) {
+    $result = $app->qrcode->temporary('foo', 6 * 24 * 3600);
+    $url = $app->qrcode->url($result['ticket']);
+    return $url;
 });
 
 
