@@ -15,7 +15,12 @@ class Plugin extends PluginBase
                 'secret'        => Settings::get('secret'),
                 'token'         => Settings::get('token'),
                 'response_type' => 'collection',
-
+                'debug'  => true,
+                'log' => [
+                    'level'      => 'debug',
+                    'permission' => 0777,
+                    'file'       => storage_path('logs/easywechat_'.date('Ymd').'.log'),
+                ],
             ];
             return Factory::officialAccount($config);
         });
@@ -26,6 +31,12 @@ class Plugin extends PluginBase
                 'app_id'        => Settings::get('mini_app_id'),
                 'secret'        => Settings::get('mini_secret'),
                 'response_type' => 'collection',
+                'debug'  => true,
+                'log' => [
+                    'level'      => 'debug',
+                    'permission' => 0777,
+                    'file'       => storage_path('logs/easywechat_'.date('Ymd').'.log'),
+                ],
 
             ];
             return Factory::miniProgram($miniConfig);
