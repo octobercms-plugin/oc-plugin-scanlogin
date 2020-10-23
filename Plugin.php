@@ -8,32 +8,32 @@ class Plugin extends PluginBase
 {
     public function register()
     {
-    }
-    public function boot()
-    {
-        $config = [
-            'app_id'        => Settings::get('app_id'),
-            'secret'        => Settings::get('secret'),
-            'token'         => Settings::get('token'),
-            'response_type' => 'collection',
 
-        ];
-        $this->app->singleton('wechat', function () use ($config) {
-            return Factory::officialAccount($config);
-        });
-        $miniConfig = [
-            'app_id'        => Settings::get('mini_app_id'),
-            'secret'        => Settings::get('mini_secret'),
-            'response_type' => 'collection',
+        $this->app->singleton('wechat', function () {
+            $config = [
+                'app_id'        => Settings::get('app_id'),
+                'secret'        => Settings::get('secret'),
+                'token'         => Settings::get('token'),
+                'response_type' => 'collection',
 
-        ];
-        $this->app->singleton('wechat', function () use ($config) {
+            ];
             return Factory::officialAccount($config);
         });
 
-        $this->app->singleton('mini', function () use ($miniConfig) {
+
+        $this->app->singleton('mini', function () {
+            $miniConfig = [
+                'app_id'        => Settings::get('mini_app_id'),
+                'secret'        => Settings::get('mini_secret'),
+                'response_type' => 'collection',
+
+            ];
             return Factory::miniProgram($miniConfig);
         });
+    }
+
+    public function boot()
+    {
     }
 
     public function registerComponents()
