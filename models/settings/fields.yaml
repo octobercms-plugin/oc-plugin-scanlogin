@@ -1,0 +1,47 @@
+tabs:
+    fields:
+
+        weixin_login:
+            span: left
+            label: jcc.scanlogin::lang.scanlogin.weixin_login_label
+            comment: jcc.scanlogin::lang.scanlogin.weixin_login_comment
+            type: switch
+            default: 1
+            tab: jcc.scanlogin::lang.scanlogin.tab_login
+        mini_login:
+            span: left
+            label: jcc.scanlogin::lang.scanlogin.mini_login_label
+            comment: jcc.scanlogin::lang.scanlogin.mini_login_comment
+            type: switch
+            default: 1
+            tab: jcc.scanlogin::lang.scanlogin.tab_login
+        app_id:
+            span: left
+            label: jcc.scanlogin::lang.scanlogin.app_id_label
+            comment: jcc.scanlogin::lang.scanlogin.app_id_comment
+            type: text
+            tab: jcc.scanlogin::lang.scanlogin.tab_weixin
+        secret:
+            span: left
+            label: jcc.scanlogin::lang.scanlogin.secret_label
+            comment: jcc.scanlogin::lang.scanlogin.secret_comment
+            type: text
+            tab: jcc.scanlogin::lang.scanlogin.tab_weixin
+        token:
+            span: left
+            label: jcc.scanlogin::lang.scanlogin.token_label
+            comment: jcc.scanlogin::lang.scanlogin.token_comment
+            type: text
+            tab: jcc.scanlogin::lang.scanlogin.tab_weixin
+        mini_app_id:
+            span: left
+            label: jcc.scanlogin::lang.scanlogin_mini.app_id_label
+            comment: jcc.scanlogin::lang.scanlogin_mini.app_id_comment
+            type: text
+            tab: jcc.scanlogin::lang.scanlogin_mini.tab_mini
+        mini_secret:
+            span: left
+            label: jcc.scanlogin::lang.scanlogin_mini.secret_label
+            comment: jcc.scanlogin::lang.scanlogin_mini.secret_comment
+            type: text
+            tab: jcc.scanlogin::lang.scanlogin_mini.tab_mini

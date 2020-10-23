@@ -1,0 +1,6 @@
+plugin:
+    name: 'jcc.scanlogin::lang.plugin.name'
+    description: 'jcc.scanlogin::lang.plugin.description'
+    author: jcc
+    icon: oc-icon-camera
+    homepage: ''
