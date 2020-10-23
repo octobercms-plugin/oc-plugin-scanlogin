@@ -8,6 +8,9 @@ class Plugin extends PluginBase
 {
     public function register()
     {
+    }
+    public function boot()
+    {
         $config = [
             'app_id'        => Settings::get('app_id'),
             'secret'        => Settings::get('secret'),
