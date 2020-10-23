@@ -1,7 +1,8 @@
 <?php
-$app = app('wechat');
 
-Route::any('wechat', function () use ($app) {
+Route::any('wechat', function ()  {
+    $app = app('wechat');
+
     $app->server->push(function ($message) {
         \Log::info($message);
         switch ($message['MsgType']) {
@@ -44,7 +45,8 @@ Route::any('wechat', function () use ($app) {
     return $response->send();
 });
 
-Route::get('qrcode_url', function ()use($app) {
+Route::get('qrcode_url', function () {
+    $app = app('wechat');
     $result = $app->qrcode->temporary('foo', 6 * 24 * 3600);
     $url = $app->qrcode->url($result['ticket']);
     return $url;
