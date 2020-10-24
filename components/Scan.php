@@ -4,7 +4,6 @@ use Cms\Classes\ComponentBase;
 use Jcc\Scanlogin\Models\Scan as ScanModel;
 use Illuminate\Support\Facades\Cache;
 use Url;
-
 class Scan extends ComponentBase
 {
     public function componentDetails()
@@ -46,6 +45,15 @@ class Scan extends ComponentBase
                 $this->page['login_type']       = $login_type;
                 break;
             case ScanModel::LOGIN_TYPE_WEIXIN:
+                $scan = ScanModel::where('uuid', $uuid)->where('is_use', 0)->first();
+                if (!$scan) {
+                    return ['status' => 'error', 'msg' => '参数失效', 'data' => []];
+                }
+                $this->page['qrcode_url']       = $scan->img()->first()->getPath();
+                $this->page['login_state_desc'] = '请扫码';
+                $this->page['login_comment']    = '请微信扫码登录';
+                $this->page['login_uuid']       = $uuid;
+                $this->page['login_type']       = $login_type;
                 break;
             case ScanModel::LOGIN_TYPE_MINI:
                 break;

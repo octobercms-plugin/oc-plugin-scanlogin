@@ -5,6 +5,9 @@ use Jcc\Scanlogin\Models\Scan;
 use Jcc\Scanlogin\Models\Settings;
 use Illuminate\Support\Facades\Cache;
 use Url;
+use Endroid\QrCode\QrCode;
+use System\Models\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class Scanlist extends ComponentBase
 {
@@ -34,16 +37,20 @@ class Scanlist extends ComponentBase
         }
         $uuid = uniqid('scan_login_');
 
-        //todo 限流一个ip请求10次
+        if (Scan::where('ip_address', request()->ip())->where('created_at', '>', date('Y-m-d'))->count()
+            > Settings::get('gongzhonghao_login_ip_login_count', 100)
+        ) {//一天之内一个ip只能等录几次
+            return [
+                'status'   => 'error',
+                'redirect' => Url::to('/'),
+                'msg'  => 'one ip too many login',
+                'data' => []
+            ];
+        }
 
         switch (post('login_type')) {
             case 'gongzhonghao':
-                if (Scan::where('ip_address', request()->ip())->where('created_at', '>', date('Y-m-d'))->count()
-                    > Settings::get('gongzhonghao_login_ip_login_count', 100)
-                ) {//一天之内一个ip只能等录几次
-                    return ['status' => 'error', 'redirect'=>Url::to('/'),
-                            'msg' => 'one ip too many login', 'data' => []];
-                }
+
                 $app = app('wechat');
                 //todo  一段时间内只生成这么多的二维码，uuid可以重用,那么多二维码，也不用吧，用户有那么多嘛
                 $result             = $app->qrcode->temporary($uuid, 3600);
@@ -59,6 +66,23 @@ class Scanlist extends ComponentBase
                 $scan->save();
                 break;
             case 'weixin':
+                $qrCode = new QrCode(Url::to('wechat/redirect?uuid='.$uuid));
+                $model            = new File();
+                $model->fromData($qrCode->getData(),uniqid().'.jpg');
+                $model->is_public = true;
+                $model->save();
+//                $model->getPath()
+                $scan               = new Scan();
+                $scan->login_type   = Scan::LOGIN_TYPE_WEIXIN;
+                $scan->uuid         = $uuid;
+                $scan->is_use       = 0;
+                $scan->start_use_at = now()->addMinutes(5);
+                $scan->ip_address   = request()->ip();
+
+                $scan->save();
+                $scan->img()->attach($model);
+
+
                 break;
             case 'mini':
                 break;

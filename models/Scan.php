@@ -81,6 +81,8 @@ class Scan extends Model
     public $morphTo = [];
     public $morphOne = [];
     public $morphMany = [];
-    public $attachOne = [];
+    public $attachOne = [
+        'img' => ['System\Models\File']
+    ];
     public $attachMany = [];
 }

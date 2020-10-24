@@ -1,5 +1,6 @@
 {
     "require": {
-        "overtrue/wechat": "4.2.1"
+        "overtrue/wechat": "4.2.1",
+        "endroid/qr-code": "^3.5"
     }
 }

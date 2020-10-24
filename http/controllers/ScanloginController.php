@@ -15,11 +15,9 @@ class ScanloginController extends BaseController
         $app = app('wechat');
 
         $app->server->push(function ($message) {
-            \Log::info($message);
             $msg = json_encode($message, JSON_UNESCAPED_UNICODE);
             switch ($message['MsgType']) {
                 case 'event':
-
                     if ($message['Event'] == 'subscribe') {
                         if ($message['EventKey'] ?? false) {
                             $key = substr($message['EventKey'], 8);
