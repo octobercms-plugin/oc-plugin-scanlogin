@@ -63,6 +63,7 @@ class Scan extends ComponentBase
         }
         $login_state_desc = '请扫码';
         $redirect         = '';
+        \Log::info(Cache::get($uuid . 'login_state'));
         if (Cache::has($uuid . 'login_state')) {
             $login_state = Cache::get($uuid . 'login_state');
             switch ($login_state) {
@@ -73,7 +74,13 @@ class Scan extends ComponentBase
                     $login_state_desc = '已取消';
                     break;
                 case 'confirm':
-                    $redirect         = Url::to('/middle?uuid='.$uuid);
+                    if ($login_type == ScanModel::LOGIN_TYPE_GONGZHONGHAO) {
+                        $scan         = ScanModel::where('uuid', $uuid)->where('is_use', 0)->first();
+                        $scan->is_use = 1;
+                        $scan->save();
+                    }
+                    $redirect = Url::to('/middle?uuid=' . $uuid);
+
                     $login_state_desc = '已确认登录';
                     break;
             }
