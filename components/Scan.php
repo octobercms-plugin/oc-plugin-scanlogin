@@ -87,6 +87,11 @@ class Scan extends ComponentBase
                         $scan->is_use = 1;
                         $scan->save();
                     }
+                    if ($login_type == ScanModel::LOGIN_TYPE_WEIXIN) {
+                        $scan         = ScanModel::where('uuid', $uuid)->where('is_use', 0)->first();
+                        $scan->is_use = 1;
+                        $scan->save();
+                    }
                     $redirect = Url::to('/middle?uuid=' . $uuid);
 
                     $login_state_desc = '已确认登录';
