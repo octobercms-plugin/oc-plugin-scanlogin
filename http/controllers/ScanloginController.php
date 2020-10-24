@@ -22,7 +22,7 @@ class ScanloginController extends BaseController
 
                     if ($message['Event'] == 'subscribe') {
                         if ($message['EventKey'] ?? false) {
-                            $key = substr($message['EventKey'], 7);
+                            $key = substr($message['EventKey'], 8);
                             \Log::info($key);
                             if (Cache::has($key)) {
                                 $password = strtolower(str_random());
