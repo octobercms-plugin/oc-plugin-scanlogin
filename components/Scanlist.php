@@ -65,11 +65,14 @@ class Scanlist extends ComponentBase
                 $scan->save();
                 break;
             case 'weixin':
+                \Log::info('start');
                 $qrCode = new QrCode(Url::to('wechat/redirect?uuid='.$uuid));
                 $model            = new File();
                 $model->fromData($qrCode->getData(),uniqid().'.png');
                 $model->is_public = true;
                 $model->save();
+                \Log::info('end');
+
 //                $model->getPath()
                 $scan               = new Scan();
                 $scan->login_type   = Scan::LOGIN_TYPE_WEIXIN;
