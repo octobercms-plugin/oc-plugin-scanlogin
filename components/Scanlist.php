@@ -38,8 +38,9 @@ class Scanlist extends ComponentBase
 
         switch (post('login_type')) {
             case 'gongzhonghao':
-                if (Scan::where('ip_address', request()->ip())
-                        ->where('created_at', '>', date('Y-m-d'))->count() > 100) {//一天之内一个ip只能等录几次
+                if (Scan::where('ip_address', request()->ip())->where('created_at', '>', date('Y-m-d'))->count()
+                    > Settings::get('gongzhonghao_login_ip_login_count', 100)
+                ) {//一天之内一个ip只能等录几次
                     return ['status' => 'error', 'msg' => 'one ip too many login', 'data' => []];
                 }
                 $app = app('wechat');
