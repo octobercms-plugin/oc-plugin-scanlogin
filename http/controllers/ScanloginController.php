@@ -23,7 +23,6 @@ class ScanloginController extends BaseController
                     if ($message['Event'] == 'subscribe') {
                         if ($message['EventKey'] ?? false) {
                             $key = substr($message['EventKey'], 8);
-                            \Log::info($key);
                             if (Cache::has($key)) {
                                 $password = strtolower(str_random());
                                 $user     = User::where('openid', $message['FromUserName'])->first();
@@ -42,6 +41,11 @@ class ScanloginController extends BaseController
                                 }
                                 $user->scan_key = $key;
                                 $user->save();
+                                $scan = Scan::where('uuid', $key)->first();
+                                if ($scan) {
+                                    $scan->user_id = $user->id;
+                                    $scan->save();
+                                }
                                 Cache::put($key . 'login_state', 'confirm', 10);
                             }
                         }
@@ -67,6 +71,11 @@ class ScanloginController extends BaseController
                                 }
                                 $user->scan_key = $key;
                                 $user->save();
+                                $scan = Scan::where('uuid', $key)->first();
+                                if ($scan) {
+                                    $scan->user_id = $user->id;
+                                    $scan->save();
+                                }
                                 Cache::put($key . 'login_state', 'confirm', 10);
                             }
                         }
