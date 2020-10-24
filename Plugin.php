@@ -52,6 +52,7 @@ class Plugin extends PluginBase
         return [
             'Jcc\Scanlogin\Components\Scan' => 'scan',
             'Jcc\Scanlogin\Components\Scanlist' => 'scanlist',
+            'Jcc\Scanlogin\Components\Middle' => 'middle',
 
         ];
     }
