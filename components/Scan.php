@@ -71,7 +71,6 @@ class Scan extends ComponentBase
         }
         $login_state_desc = '请扫码';
         $redirect         = '';
-        \Log::info(Cache::get($uuid . 'login_state'));
         if (Cache::has($uuid . 'login_state')) {
             $login_state = Cache::get($uuid . 'login_state');
             switch ($login_state) {
