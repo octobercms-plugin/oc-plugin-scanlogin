@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Cache;
 use Url;
 use Endroid\QrCode\QrCode;
 use System\Models\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class Scanlist extends ComponentBase
 {
@@ -68,7 +67,7 @@ class Scanlist extends ComponentBase
             case 'weixin':
                 $qrCode = new QrCode(Url::to('wechat/redirect?uuid='.$uuid));
                 $model            = new File();
-                $model->fromData($qrCode->getData(),uniqid().'.jpg');
+                $model->fromData($qrCode->getData(),uniqid().'.png');
                 $model->is_public = true;
                 $model->save();
 //                $model->getPath()
