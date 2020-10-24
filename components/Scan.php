@@ -73,7 +73,7 @@ class Scan extends ComponentBase
                     $login_state_desc = '已取消';
                     break;
                 case 'confirm':
-                    $redirect         = Url::to('/');
+                    $redirect         = Url::to('/middle?uuid='.$uuid);
                     $login_state_desc = '已确认登录';
                     break;
             }

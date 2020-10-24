@@ -84,4 +84,26 @@ class ScanloginController extends BaseController
         return $response->send();
     }
 
+    public function middle()
+    {
+        $uuid = request()->uuid;
+        if (!Cache::has($uuid)) {
+            abort(404);
+        }
+        if (!Cache::has($uuid . 'login_state')) {
+            abort(404);
+        }
+        if (Cache::get($uuid . 'login_state') != 'confirm') {
+            abort(404);
+        }
+        $user = User::where('scan_key', $uuid)->first();
+        if (!$user) {
+            abort(404, 'code 失效');
+        }
+        Cache::forget($uuid);
+        Auth::login($user);
+
+        return redirect()->to('/');
+    }
+
 }

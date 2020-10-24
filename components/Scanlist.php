@@ -41,7 +41,7 @@ class Scanlist extends ComponentBase
                     return ['status' => 'error', 'msg' => 'one ip too many login', 'data' => []];
                 }
                 $app = app('wechat');
-                //todo  一段时间内只生成这么多的二维码，uuid可以重用
+                //todo  一段时间内只生成这么多的二维码，uuid可以重用,那么多二维码，也不用吧，用户有那么多嘛
                 $result             = $app->qrcode->temporary($uuid, 3600);
                 $ticket             = $result['ticket'];
                 $scan               = new Scan();
