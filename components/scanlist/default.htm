@@ -1,7 +1,7 @@
 
 
 {% if scan_setting.get('gongzhonghao_login')%}
-<button class="btn btn-primary" data-request="onGetUuidByLoginType" data-request-data="login_type:'gongzhonghao'" data-request-success="location.href='/scan_login?login_type=gongzhonghao&uuid='+data.data.uuid"> 公众号登录</button>
+<button class="btn btn-primary" data-request="onGetUuidByLoginType" data-request-data="login_type:'gongzhonghao'" data-request-success="location.href=data.redirect"> 公众号登录</button>
 {% endif %}
 
 {% if scan_setting.get('weixin_login')%}

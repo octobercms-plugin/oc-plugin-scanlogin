@@ -4,6 +4,7 @@ use Cms\Classes\ComponentBase;
 use Jcc\Scanlogin\Models\Scan;
 use Jcc\Scanlogin\Models\Settings;
 use Illuminate\Support\Facades\Cache;
+use Url;
 
 class Scanlist extends ComponentBase
 {
@@ -27,6 +28,7 @@ class Scanlist extends ComponentBase
 
     public function onGetUuidByLoginType()
     {
+        $loginType = post('login_type');
         if (!in_array(post('login_type'), ['gongzhonghao', 'weixin', 'mini'])) {
             abort(404);
         }
@@ -59,7 +61,14 @@ class Scanlist extends ComponentBase
             case 'mini':
                 break;
         }
-        Cache::put($uuid, $uuid, now()->addMinutes(5));
-        return ['status' => 'success', 'msg' => 'ok', 'data' => ['uuid' => $uuid]];
+        Cache::put($uuid, $uuid, now()->addMinutes(10));
+
+
+        return [
+            'status'   => 'success',
+            'redirect' => Url::to('/scan_login?login_type=' . $loginType . '&uuid=' . $uuid),
+            'msg'      => 'ok',
+            'data'     => ['uuid' => $uuid]
+        ];
     }
 }
