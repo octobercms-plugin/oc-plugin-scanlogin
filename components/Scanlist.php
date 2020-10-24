@@ -80,7 +80,7 @@ class Scanlist extends ComponentBase
                 $scan->ip_address   = request()->ip();
 
                 $scan->save();
-                $scan->img()->attach($model);
+                $scan->img()->save($model);
 
 
                 break;
