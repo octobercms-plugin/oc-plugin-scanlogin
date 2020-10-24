@@ -23,6 +23,6 @@ class WechatRedirect extends ComponentBase
         $app = app('wechat');
         return $app->oauth->scopes(['snsapi_base'])
             ->setRequest(request())
-            ->redirect(Url::to('/wechat/callback'));
+            ->redirect(Url::to('/wechat/callback?uuid='.request()->uuid));
     }
 }

@@ -33,6 +33,7 @@ class WechatCallback extends ComponentBase
         $openId = $array['openid'];
         $key    = request()->uuid;
 
+        \Log::info('callback');
         \Log::info($key);
         if (Cache::has($key)) {
             $user     = User::where('openid', $openId)->first();
@@ -61,6 +62,6 @@ class WechatCallback extends ComponentBase
             Cache::put($key . 'login_state', 'confirm', 10);
         }
 
-
+        return '登录成功';
     }
 }
