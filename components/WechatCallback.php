@@ -10,7 +10,7 @@ class WechatCallback extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'        => 'wechat Component',
+            'name'        => 'wechat callback Component',
             'description' => 'No description provided yet...'
         ];
     }
