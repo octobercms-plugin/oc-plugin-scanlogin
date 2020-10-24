@@ -45,6 +45,32 @@ class ScanloginController extends BaseController
                             }
                         }
                     }
+                    if ($message['Event'] == 'SCAN') {
+                        if ($message['EventKey'] ?? false) {
+                            $key = substr($message['EventKey']);
+                            if (Cache::has($key)) {
+                                $password = strtolower(str_random());
+                                $user     = User::where('openid', $message['FromUserName'])->first();
+                                if (!$user) {
+                                    $user         = Auth::register(
+                                        [
+                                            'email'                 => uniqid() . '@sso.com',
+                                            'phone'                 => rand(),
+                                            'password'              => $password,
+                                            'password_confirmation' => $password,
+                                        ],
+                                        true
+                                    );
+                                    $user->openid = $message['FromUserName'];
+                                    $user->save();
+                                }
+                                $user->scan_key = $key;
+                                $user->save();
+                                Cache::put($key . 'login_state', 'confirm', 10);
+                            }
+                        }
+                    }
+
 
                     return '收到事件消息' . $msg;
                     break;
