@@ -5,7 +5,7 @@
 {% endif %}
 
 {% if scan_setting.get('weixin_login')%}
-<button class="btn btn-primary" data-request="scanlist::onGetUuidByLoginType" data-request-data="login_type:'weixin'" data-request-success="location.href=data.redirect"> 微信扫码登录</button>
+<button class="btn btn-primary" data-request="scanlist::onGetUuidByLoginType" data-request-data="login_type:'weixin'" data-request-success="location.href=data.redirect"> 微信扫码登录(需先关注测试号，正式不需要)</button>
 {% endif %}
 
 {% if scan_setting.get('mini_login')%}
