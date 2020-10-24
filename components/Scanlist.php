@@ -29,12 +29,14 @@ class Scanlist extends ComponentBase
     }
 
     public function onGetUuidByLoginType()
-    {
+    {                \Log::info('start3');
+
         $loginType = post('login_type');
         if (!in_array(post('login_type'), ['gongzhonghao', 'weixin', 'mini'])) {
             abort(404);
         }
         $uuid = uniqid('scan_login_');
+        \Log::info('start1');
 
         if (Scan::where('ip_address', request()->ip())->where('created_at', '>', date('Y-m-d'))->count()
             > Settings::get('gongzhonghao_login_ip_login_count', 100)
@@ -46,6 +48,7 @@ class Scanlist extends ComponentBase
                 'data' => []
             ];
         }
+        \Log::info('start2');
 
         switch (post('login_type')) {
             case 'gongzhonghao':
