@@ -5,7 +5,7 @@ Route::any('wechat', function ()  {
 
     $app->server->push(function ($message) {
         \Log::info($message);
-        $msg = json_encode($message,JSON_UNESCAPED_UNICODE);
+        $msg = '';
         switch ($message['MsgType']) {
             case 'event':
                 return '收到事件消息'.$msg;
