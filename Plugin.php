@@ -53,6 +53,8 @@ class Plugin extends PluginBase
             'Jcc\Scanlogin\Components\Scan' => 'scan',
             'Jcc\Scanlogin\Components\Scanlist' => 'scanlist',
             'Jcc\Scanlogin\Components\Middle' => 'middle',
+            'Jcc\Scanlogin\Components\WechatRedirect' => 'wechatredirect',
+            'Jcc\Scanlogin\Components\WechatCallback' => 'wechatcallback',
 
         ];
     }
