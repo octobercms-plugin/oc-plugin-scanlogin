@@ -49,6 +49,11 @@ class Plugin extends PluginBase
 
     public function registerComponents()
     {
+        return [
+            'Jcc\Scanlogin\Components\Scan' => 'scan',
+            'Jcc\Scanlogin\Components\Scanlist' => 'scanlist',
+
+        ];
     }
 
     public function registerSettings()

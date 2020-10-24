@@ -55,7 +55,18 @@ class Scan extends Model
     protected $dates = [
         'created_at',
         'updated_at',
+        'start_use_at',
         'expired_at'
+    ];
+
+    const LOGIN_TYPE_GONGZHONGHAO = 'gongzhonghao';
+    const LOGIN_TYPE_WEIXIN = 'weixin';
+    const LOGIN_TYPE_MINI = 'mini';
+
+    public static $loginTypeMaps = [
+        self::LOGIN_TYPE_GONGZHONGHAO => '公众号登录',
+        self::LOGIN_TYPE_WEIXIN       => '微信登录',
+        self::LOGIN_TYPE_MINI         => '小程序登录',
     ];
 
     /**

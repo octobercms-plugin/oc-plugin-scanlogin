@@ -11,10 +11,15 @@ class CreateScansTable extends Migration
         Schema::create('jcc_scanlogin_scans', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->unsignedInteger('user_id')->nullable();
             $table->string('uuid')->nullable();
             $table->string('ticket')->nullable();
-            $table->date('expired_at')->nullable();
-            $table->boolean('is_used')->default(false);
+            $table->dateTime('expired_at')->nullable();
+            $table->dateTime('start_use_at')->nullable();
+            $table->boolean('is_use')->default(false);
+            $table->string('ip_address')->nullable();
+            $table->string('login_type')->nullable();
+
             $table->timestamps();
         });
     }

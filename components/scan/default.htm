@@ -1,0 +1,26 @@
+
+<h2 style="text-align: center" id="login_state_desc">{{login_state_desc}}</h2>
+<p style="text-align: center"> {{login_comment}}</p>
+<img src="{{qrcode_url}}" alt="" class="img-responsive center-block">
+
+
+<script>
+
+    setInterval(() => {
+        $.request('onGetLoginState',{
+            data:{
+                uuid:'{{login_uuid}}',
+                login_type:'{{login_type}}'
+            },
+            success: function(data) {
+
+                $('#login_state_desc').html(data.data.login_state_desc)
+
+                if(data.redirect){
+                    location.href = data.redirect
+                }
+            }
+        })
+    }, 2000)
+
+</script>

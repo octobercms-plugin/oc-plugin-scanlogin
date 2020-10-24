@@ -1,6 +1,19 @@
 tabs:
     fields:
 
+        gongzhonghao_login:
+            span: left
+            label: jcc.scanlogin::lang.scanlogin.gongzhonghao_label
+            comment: jcc.scanlogin::lang.scanlogin.gongzhonghao_comment
+            type: switch
+            default: 1
+            tab: jcc.scanlogin::lang.scanlogin.tab_login
+        gongzhonghao_login_ip_login_count:
+            span: left
+            label: jcc.scanlogin::lang.scanlogin.gongzhonghao_ip_login_label
+            comment: jcc.scanlogin::lang.scanlogin.gongzhonghao_ip_login_comment
+            type: number
+            tab: jcc.scanlogin::lang.scanlogin.tab_login
         weixin_login:
             span: left
             label: jcc.scanlogin::lang.scanlogin.weixin_login_label

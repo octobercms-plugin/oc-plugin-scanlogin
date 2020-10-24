@@ -4,6 +4,10 @@
         'description' => '',
     ],
     'scanlogin' => [
+        'gongzhonghao_label' => '公众号关注扫码登录',
+        'gongzhonghao_comment' => '支持公众号关注登录',
+        'gongzhonghao_ip_login_label' => 'ip限制',
+        'gongzhonghao_ip_login_comment' => '一个ip一天之内限制登录几次，会消耗公众号二维码的数量',
         'weixin_login_label' => '微信扫码登录',
         'weixin_login_comment' => '支持微信扫码登录',
         'mini_login_label' => '微信小程序扫码登录',
