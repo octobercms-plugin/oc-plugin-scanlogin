@@ -4,10 +4,9 @@
 <img src="{{qrcode_url}}" alt="" class="img-responsive center-block">
 
 
-{% put script%}
+{% put scripts %}
 <script>
 
-    document.rea
     setInterval(() => {
         $.request('onGetLoginState',{
             data:{
