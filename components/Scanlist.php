@@ -41,7 +41,8 @@ class Scanlist extends ComponentBase
                 if (Scan::where('ip_address', request()->ip())->where('created_at', '>', date('Y-m-d'))->count()
                     > Settings::get('gongzhonghao_login_ip_login_count', 100)
                 ) {//一天之内一个ip只能等录几次
-                    return ['status' => 'error', 'msg' => 'one ip too many login', 'data' => []];
+                    return ['status' => 'error', 'redirect'=>Url::to('/'),
+                            'msg' => 'one ip too many login', 'data' => []];
                 }
                 $app = app('wechat');
                 //todo  一段时间内只生成这么多的二维码，uuid可以重用,那么多二维码，也不用吧，用户有那么多嘛
