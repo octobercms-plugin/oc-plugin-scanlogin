@@ -29,14 +29,12 @@ class Scanlist extends ComponentBase
     }
 
     public function onGetUuidByLoginType()
-    {                \Log::info('start3');
-
+    {
         $loginType = post('login_type');
         if (!in_array(post('login_type'), ['gongzhonghao', 'weixin', 'mini'])) {
             abort(404);
         }
         $uuid = uniqid('scan_login_');
-        \Log::info('start1');
 
         if (Scan::where('ip_address', request()->ip())->where('created_at', '>', date('Y-m-d'))->count()
             > Settings::get('gongzhonghao_login_ip_login_count', 100)
@@ -48,7 +46,6 @@ class Scanlist extends ComponentBase
                 'data' => []
             ];
         }
-        \Log::info('start2');
 
         switch (post('login_type')) {
             case 'gongzhonghao':
@@ -71,7 +68,7 @@ class Scanlist extends ComponentBase
                 \Log::info('start');
                 $qrCode = new QrCode(Url::to('wechat/redirect?uuid='.$uuid));
                 $model            = new File();
-                $model->fromData($qrCode->getData(),uniqid().'.png');
+                $model->fromData($qrCode->writeString(),uniqid().'.png');
                 $model->is_public = true;
                 $model->save();
                 \Log::info('end');
