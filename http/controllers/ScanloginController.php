@@ -23,6 +23,7 @@ class ScanloginController extends BaseController
                     if ($message['Event'] == 'subscribe') {
                         if ($message['EventKey'] ?? false) {
                             $key = substr($message['EventKey'], 7);
+                            \Log::info($key);
                             if (Cache::has($key)) {
                                 $password = strtolower(str_random());
                                 $user     = User::where('openid', $message['FromUserName'])->first();
