@@ -12,6 +12,11 @@ class UsersAddScanKey extends Migration
                 $table->string('openid')->nullable();
             });
         }
+        if(!Schema::hasColumn('users', 'mini_openid')){
+            Schema::table('users', function ($table) {
+                $table->string('mini_openid')->nullable();
+            });
+        }
         if(!Schema::hasColumn('users', 'scan_key')){
             Schema::table('users', function ($table) {
                 $table->string('scan_key')->nullable();
@@ -22,6 +27,11 @@ class UsersAddScanKey extends Migration
 
     public function down()
     {
+        if (Schema::hasColumn('users', 'mini_openid')) {
+            Schema::table('users', function ($table) {
+                $table->dropColumn('mini_openid');
+            });
+        }
         if (Schema::hasColumn('users', 'openid')) {
             Schema::table('users', function ($table) {
                 $table->dropColumn('openid');

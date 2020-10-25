@@ -118,26 +118,66 @@ class ScanloginController extends BaseController
         return $response->send();
     }
 
-    public function middle()
-    {
-        $uuid = request()->uuid;
-        if (!Cache::has($uuid)) {
-            abort(404);
-        }
-        if (!Cache::has($uuid . 'login_state')) {
-            abort(404);
-        }
-        if (Cache::get($uuid . 'login_state') != 'confirm') {
-            abort(404);
-        }
-        $user = User::where('scan_key', $uuid)->first();
-        if (!$user) {
-            abort(404, 'code 失效');
-        }
-        Cache::forget($uuid);
-        Auth::login($user);
+//    public function middle()
+//    {
+//        $uuid = request()->uuid;
+//        if (!Cache::has($uuid)) {
+//            abort(404);
+//        }
+//        if (!Cache::has($uuid . 'login_state')) {
+//            abort(404);
+//        }
+//        if (Cache::get($uuid . 'login_state') != 'confirm') {
+//            abort(404);
+//        }
+//        $user = User::where('scan_key', $uuid)->first();
+//        if (!$user) {
+//            abort(404, 'code 失效');
+//        }
+//        Cache::forget($uuid);
+//        Auth::login($user);
+//
+//        return redirect()->to('/');
+//    }
 
-        return redirect()->to('/');
+    public function miniLogin(Request $request)
+    {
+        \Log::info('loginMini-request', $request->all());
+        $res = app('mini')->auth->session($request->code);
+        \Log::info('loginMini', $res->toArray());
+        $sessionKey = $res->session_key;
+        $data                = app('mini')->encryptor->decryptData($sessionKey, $request->iv, $request->encryptedData);
+        $openId = $data['openId'];
+        $key = $request->uuid;
+        if (Cache::has($key)) {
+            $user     = User::where('mini_openid', $openId)->first();
+            $password = strtolower(str_random());
+            if (!$user) {
+                $user         = Auth::register(
+                    [
+                        'email'                 => uniqid() . '@sso.com',
+                        'phone'                 => rand(),
+                        'password'              => $password,
+                        'password_confirmation' => $password,
+                    ],
+                    true
+                );
+                $user->openid = $openId;
+                $user->save();
+            }
+
+            $user->scan_key = $key;
+            $user->save();
+            $scan = Scan::where('uuid', $key)->first();
+            if ($scan) {
+                $scan->user_id = $user->id;
+                $scan->save();
+            }
+            Cache::put($key . 'login_state', 'confirm', 10);
+
+            return ['status'=>'success','msg'=>'登录成功'];
+        }
+
     }
 
 }
