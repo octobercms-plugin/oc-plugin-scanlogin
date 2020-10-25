@@ -177,6 +177,8 @@ class ScanloginController extends BaseController
 
             return ['status'=>'success','msg'=>'登录成功'];
         }
+        return ['status'=>'error','msg'=>'缺少参数'];
+
 
     }
 
