@@ -35,7 +35,7 @@ class Plugin extends PluginBase
                 'log' => [
                     'level'      => 'debug',
                     'permission' => 0777,
-                    'file'       => storage_path('logs/easywechat_'.date('Ymd').'.log'),
+                    'file'       => storage_path('logs/easywechat_mini_'.date('Ymd').'.log'),
                 ],
 
             ];
