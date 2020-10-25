@@ -42,8 +42,8 @@ class Scanlist extends ComponentBase
             return [
                 'status'   => 'error',
                 'redirect' => Url::to('/'),
-                'msg'  => 'one ip too many login',
-                'data' => []
+                'msg'      => 'one ip too many login',
+                'data'     => []
             ];
         }
 
@@ -65,9 +65,9 @@ class Scanlist extends ComponentBase
                 $scan->save();
                 break;
             case 'weixin':
-                $qrCode = new QrCode(Url::to('wechat/redirect?uuid='.$uuid));
-                $model            = new File();
-                $model->fromData($qrCode->writeString(),uniqid().'.png');
+                $qrCode = new QrCode(Url::to('wechat/redirect?uuid=' . $uuid));
+                $model  = new File();
+                $model->fromData($qrCode->writeString(), uniqid() . '.png');
                 $model->is_public = true;
                 $model->save();
 
@@ -85,6 +85,22 @@ class Scanlist extends ComponentBase
 
                 break;
             case 'mini':
+                $file = $this->getMiniQRCode('pages/index/index?uuid='.$uuid,430);
+                $model = new File();
+                $model->fromData(strval($file->getBody()), uniqid() . '.png');
+                $model->is_public = true;
+                $model->save();
+                $scan               = new Scan();
+                $scan->login_type   = Scan::LOGIN_TYPE_MINI;
+                $scan->uuid         = $uuid;
+                $scan->is_use       = 0;
+                $scan->start_use_at = now()->addMinutes(5);
+                $scan->ip_address   = request()->ip();
+
+                $scan->save();
+                $scan->img()->save($model);
+
+
                 break;
         }
         Cache::put($uuid, $uuid, now()->addMinutes(10));
@@ -97,4 +113,30 @@ class Scanlist extends ComponentBase
             'data'     => ['uuid' => $uuid]
         ];
     }
+
+    protected function getMiniQRCode($path1, $width)
+    {
+
+        $path1       = urldecode($path1);
+        $miniProgram = app('mini');
+//        dd($miniProgram);
+
+        if (str_contains($path1, '?')) {
+
+            $pathArray = explode('?', $path1);
+            $scene     = $pathArray[1];
+            $path      = $pathArray[0];
+            if (strlen($scene) >= 32) {
+                //参数大于32生成有限制数量的二维码
+                $file = $miniProgram->app_code->get($path1, ['width' => $width]);
+            } else {
+                //参数小于32生成无限制数量的二维码
+                $file = $miniProgram->app_code->getUnlimit($scene, ['page' => $path, 'width' => $width]);
+            }
+        } else {
+            $file = $miniProgram->app_code->getUnlimit('noparames', ['page' => $path1, 'width' => $width]);
+        }
+        return $file;
+    }
+
 }
