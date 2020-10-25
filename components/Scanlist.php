@@ -85,7 +85,7 @@ class Scanlist extends ComponentBase
 
                 break;
             case 'mini':
-                $file = $this->getMiniQRCode('pages/post/login/login?uuid='.$uuid,430);
+                $file = $this->getMiniQRCode('pages/index?uuid='.$uuid,430);
                 $model = new File();
                 $model->fromData(strval($file->getBody()), uniqid() . '.png');
                 $model->is_public = true;
