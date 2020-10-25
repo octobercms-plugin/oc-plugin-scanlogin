@@ -2,5 +2,5 @@
 
 
 Route::any('wechat','Jcc\Scanlogin\Http\Controllers\ScanloginController@wechat');
-Route::post('mini/login','Jcc\Scanlogin\Http\Controllers\ScanloginController@miniLogin');
+Route::get('mini/login','Jcc\Scanlogin\Http\Controllers\ScanloginController@miniLogin');
 
