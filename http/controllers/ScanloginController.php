@@ -146,9 +146,14 @@ class ScanloginController extends BaseController
         $res = app('mini')->auth->session($request->code);
         \Log::info('loginMini', $res->toArray());
         $sessionKey = $res->session_key;
-        $data                = app('mini')->encryptor->decryptData($sessionKey, $request->iv, $request->encryptedData);
-        $openId = $data['openId'];
+        $data       = app('mini')->encryptor->decryptData($sessionKey, $request->iv, $request->encryptedData);
+        $openId     = $data['openId'];
+
         $key = $request->uuid;
+        if ($request->scene) {
+            parse_str(urldecode($request->scene), $scene);
+            $key = $scene['uuid'] ?? null;
+        }
         if (Cache::has($key)) {
             $user     = User::where('mini_openid', $openId)->first();
             $password = strtolower(str_random());
@@ -175,9 +180,9 @@ class ScanloginController extends BaseController
             }
             Cache::put($key . 'login_state', 'confirm', 10);
 
-            return ['status'=>'success','msg'=>'登录成功'];
+            return ['status' => 'success', 'msg' => '登录成功'];
         }
-        return ['status'=>'error','msg'=>'缺少参数或您已授权登录过'];
+        return ['status' => 'error', 'msg' => '缺少参数或您已授权登录过'];
 
 
     }
